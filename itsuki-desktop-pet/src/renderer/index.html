@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>中野五月 - AI 桌面夥伴</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* 瀏覽器模式：讓頁面置中並有背景 */
+    html, body {
+      background: transparent !important;
+      width: 420px;
+      height: 620px;
+      margin: 0 auto;
+    }
+    /* 提示條 */
+    #setup-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: #FFB6C1;
+      color: #333;
+      text-align: center;
+      padding: 6px;
+      font-size: 13px;
+      font-family: "Microsoft YaHei", sans-serif;
+      z-index: 999;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <!-- 除錯面板 -->
+  <div id="debug-log" style="position:fixed;top:0;right:0;width:320px;max-height:180px;overflow-y:auto;background:rgba(0,0,0,0.85);color:#fff;font-size:11px;font-family:monospace;padding:6px;z-index:999;">🔍 除錯中...</div>
+  <!-- 設定提示 -->
+  <div id="setup-bar">請先設定 API Key 才能聊天喔～</div>
+
+  <!-- PixiJS 畫布 -->
+  <div id="character-container">
+    <canvas id="character-canvas"></canvas>
+  </div>
+
+  <!-- 對話氣泡 -->
+  <div id="speech-bubble" class="hidden">
+    <span id="speech-text"></span>
+  </div>
+
+  <!-- 狀態指示器 -->
+  <div id="status-indicator" class="hidden">
+    <span id="status-text"></span>
+  </div>
+
+  <!-- 錯誤捕捉 -->
+  <script>
+    window.onerror = function(msg, url, line) {
+      var el = document.getElementById('debug-log');
+      if (el) el.innerHTML += '<span style="color:#ff4444">ERROR: ' + msg + ' at ' + url + ':' + line + '</span><br>';
+      console.error(msg, url, line);
+    };
+    // 立即顯示
+    (function() {
+      var el = document.getElementById('debug-log');
+      if (el) el.innerHTML = '<span style="color:#fff">📄 HTML 載入完成...</span><br>';
+    })();
+  </script>
+
+  <!-- Hack: pixi-live2d-display 引用 Node.js process -->
+  <script>window.process = { env: {}, versions: {} };</script>
+  <!-- Libraries（順序很重要） -->
+  <script src="/assets/lib/pixi.min.js"></script>
+  <script src="/assets/lib/live2d.min.js"></script>
+  <script src="/assets/lib/live2dcubismcore.min.js"></script>
+  <script src="/assets/lib/pixi-live2d-display.min.js"></script>
+
+  <!-- 瀏覽器 API 橋接層（取代 Electron preload） -->
+  <script src="browser-api.js"></script>
+  <script>document.getElementById('debug-log').innerHTML += '<span style="color:#fff">✅ browser-api 載入</span><br>';</script>
+
+  <!-- 應用程式 -->
+  <script src="core/pixi-app.js"></script><script>var d=document.getElementById('debug-log');if(d)d.innerHTML+='<span style="color:#fff">✅ pixi-app</span><br>';</script>
+  <script src="animation/idle-controller.js"></script>
+  <script src="animation/lip-sync.js"></script>
+  <script src="ai/personality.js"></script>
+  <script src="ai/conversation.js"></script>
+  <script src="ai/response-parser.js"></script>
+  <script src="voice/tts.js"></script><script>var d=document.getElementById('debug-log');if(d)d.innerHTML+='<span style="color:#fff">✅ modules</span><br>';</script>
+  <script src="voice/stt.js"></script>
+  <script src="voice/voice-pipeline.js"></script>
+  <script src="vision/camera-manager.js"></script>
+  <script src="vision/gesture-classifier.js"></script>
+  <script src="vision/gesture-to-reaction.js"></script>
+  <script src="vision/vision-pipeline.js"></script>
+  <script src="ui/chat-overlay.js"></script>
+  <script src="ui/music-player.js"></script>
+  <script src="ui/input-bar.js"></script><script>var d=document.getElementById('debug-log');if(d)d.innerHTML+='<span style="color:#fff">✅ ui</span><br>';</script>
+  <script src="app.js"></script><script>var d=document.getElementById('debug-log');if(d)d.innerHTML+='<span style="color:#fff">✅ app.js 載入</span><br>';</script>
+</body>
+</html>

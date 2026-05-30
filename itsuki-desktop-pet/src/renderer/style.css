@@ -1,0 +1,120 @@
+/* === 桌面寵物全域樣式 === */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* 關鍵：讓背景完全透明 */
+html, body {
+  width: 100vw;
+  height: 100vh;
+  background: #f5f0eb !important;
+  overflow: hidden;
+  user-select: none;
+  -webkit-user-select: none;
+  margin: 0;
+  padding: 0;
+  padding-top: 200px;
+  box-sizing: border-box;
+}
+#character-container {
+  width: 100%;
+  height: calc(100vh - 200px);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 20px;
+}
+
+/* 角色容器 */
+#character-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+#character-canvas {
+  display: block;
+  /* 讓角色互動區域不吃拖曳事件 */
+  -webkit-app-region: no-drag;
+}
+
+/* === 對話氣泡 === */
+#speech-bubble {
+  position: absolute;
+  top: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 280px;
+  padding: 12px 16px;
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: 18px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+  font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #333;
+  z-index: 10;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  -webkit-app-region: no-drag;
+}
+
+#speech-bubble::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 8px solid rgba(255, 255, 255, 0.92);
+}
+
+#speech-bubble.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* === 狀態指示器 === */
+#status-indicator {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  padding: 4px 10px;
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 10px;
+  font-family: "Microsoft YaHei", sans-serif;
+  font-size: 11px;
+  color: #fff;
+  z-index: 10;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  -webkit-app-region: no-drag;
+}
+
+#status-indicator.hidden {
+  opacity: 0;
+}
+
+/* === 角色反應動畫 === */
+@keyframes bounce {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(-8px); }
+}
+
+#speech-bubble.bouncing {
+  animation: bounce 0.4s ease;
+}
+
+/* === 可點擊互動區域 === */
+.clickable {
+  -webkit-app-region: no-drag;
+  cursor: pointer;
+}

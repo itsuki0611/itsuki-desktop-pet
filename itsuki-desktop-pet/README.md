@@ -1,19 +1,22 @@
-# 🎀 中野五月 AI 桌面夥伴
+# 🎀 中野五月 — AI 桌面夥伴
 
-一個基於 **Live2D + Claude AI + Web Speech API** 的互動式桌面角色引擎。支援文字/語音對話、Live2D 角色動畫、攝影機手勢追蹤。
+《五等分の花嫁》的中野五月，現在活在你的桌面上！
 
-![demo](https://img.shields.io/badge/status-v0.1-green)
-![tech](https://img.shields.io/badge/tech-PixiJS%20%7C%20Claude%20API%20%7C%20Live2D-blue)
+## 功能
 
-## ✨ 功能
+| 功能 | 說明 | 快捷鍵 |
+|------|------|--------|
+| 💬 AI 聊天 | Claude API 驅動，五月人設對話 | 雙擊角色打字 |
+| 🎤 語音辨識 | Web Speech API，講話五月聽 | `F2` 開始聆聽 |
+| 🔊 語音回應 | TTS 語音輸出 + 嘴形同步 | `F3` 切換語音模式 |
+| 😊 角色動畫 | 眨眼、呼吸、待機動作 | 自動 |
+| 🖱️ 眼睛追蹤 | 眼睛跟隨滑鼠移動 | 自動 |
+| 🤚 摸頭反應 | 點擊頭部 → 五月害羞 | 點擊頭部 |
+| ✋ 手勢互動 | 攝影機手勢辨識 | `F4` 開關 |
+| 🕐 時間感知 | 早上/晚上不同問候語 | 自動 |
+| 🖱️ 拖曳移動 | 拖曳五月到任意位置 | 拖曳角色 |
 
-- 🎭 **Live2D 角色渲染** — 支援 Cubism 2/3/4 模型，自動物理模擬與待機動畫
-- 🧠 **AI 對話** — Claude API 驅動，可自訂角色人設（System Prompt）
-- 🎤 **語音互動** — Web Speech API 文字轉語音 + 語音辨識
-- 🖐️ **手勢追蹤** — MediaPipe 即時手部關鍵點追蹤（可選）
-- 🪟 **桌面浮窗模式** — 透過 Edge App 模式無邊框置頂顯示
-
-## 🚀 快速開始
+## 快速開始
 
 ### 1. 安裝依賴
 
@@ -23,104 +26,88 @@ npm install
 
 ### 2. 設定 Claude API Key
 
-複製 `config.example.json` 為 `config.json`，填入你的 API Key：
+第一次啟動時，雙擊五月 → 在輸入框中輸入你的 API Key：
 
-```json
-{
-  "apiKey": "sk-ant-api03-你的key"
-}
+```
+sk-ant-api03-xxxxxxxxxxxxx
 ```
 
-> 🔑 取得 Key：[Anthropic Console](https://console.anthropic.com/)
+或輸入 `api:sk-ant-...` 格式。API Key 會安全儲存在本機。
 
-### 3. 準備 Live2D 模型
+> 取得 API Key: https://console.anthropic.com/
 
-將 Live2D 模型檔放入 `assets/models/你的模型/`，包含：
-- `.moc3` 或 `.moc`（模型骨架）
-- `.model3.json` 或 `.model.json`（模型設定）
-- `textures/`（貼圖）
-- `motions/`（動作，可選）
-
-> 💡 可從 [Live2D 官網](https://www.live2d.com/download/sample-data/) 下載免費樣本模型（需註冊）
-
-然後修改 `src/renderer/app.js` 中的模型路徑：
-
-```js
-const modelPath = '/assets/models/你的模型/模型.model3.json';
-```
-
-### 4. 啟動
+### 3. 啟動五月
 
 ```bash
 npm start
 ```
 
-瀏覽器打開 `http://localhost:22222`，或使用桌面浮窗模式：
+五月會出現在桌面右下角！
 
-```bash
-start msedge --app=http://localhost:22222 --window-size=420,750
+### 4. （可選）手勢追蹤
+
+手勢追蹤需要 MediaPipe 模型檔。請下載：
+
+```
+https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/latest/hand_landmarker.task
 ```
 
-雙擊 `start.bat` 一鍵啟動。
+放到 `assets/lib/mediapipe/hand_landmarker.task`，然後按 `F4` 啟用手勢追蹤。
 
-## 🎮 操作指南
+支援手勢：
+- ✋ 張開手掌 → 五月驚訝
+- 👍 比讚 → 五月開心
+- ✌️ 勝利手勢 → 五月微笑
+- 🫶 手指愛心 → 五月臉紅害羞
+- 👋 揮手 → 五月打招呼
 
-| 操作 | 功能 |
+## 快捷鍵總覽
+
+| 按鍵 | 功能 |
 |------|------|
-| 雙擊角色 | 打開文字輸入框 |
+| 雙擊角色 | 打開文字輸入 |
+| 拖曳角色 | 移動視窗位置 |
+| 點擊頭部 | 摸頭反應 |
 | `F2` | 開始/停止語音聆聽 |
 | `F3` | 切換語音/文字模式 |
-| `F4` | 啟動手勢追蹤（需攝影機 + MediaPipe 模型） |
-| 輸入 `語音列表` | 查看可選 TTS 語音 |
-| 輸入 `語音:名稱` | 切換語音 |
-| 右下角 🎵 | 音樂播放器 |
+| `F4` | 開關手勢追蹤 |
+| `Esc` | 關閉輸入框 |
 
-## 🛠️ 技術架構
+## 專案結構
 
 ```
-瀏覽器前端 (PixiJS + Live2D)
-    ↕ HTTP/SSE
-Node.js 後端 (server.js)
-    ↕
-Claude API (Anthropic)
-```
-
-| 層 | 技術 | 說明 |
-|----|------|------|
-| 角色渲染 | PixiJS 7 + pixi-live2d-display | WebGL 渲染 Live2D 模型 |
-| AI 引擎 | Claude API (Anthropic SDK) | 串流對話 + 角色人設注入 |
-| 語音合成 | Web Speech API | 內建中文 TTS，支援多語音 |
-| 語音辨識 | Web Speech API | 即時語音轉文字 |
-| 手勢追蹤 | MediaPipe Hands | 21 點手部關鍵點即時偵測 |
-| 後端 | Node.js HTTP | API 代理 + 靜態服務 |
-
-## 📁 專案結構
-
-```
-├── server.js              # 後端伺服器（API 代理 + 靜態檔案）
-├── src/
-│   └── renderer/
-│       ├── index.html     # 主頁面
-│       ├── app.js         # 主程式（角色初始化、互動邏輯）
-│       ├── core/          # PixiJS 渲染引擎
-│       ├── ai/            # AI 對話（人設、歷史管理）
-│       ├── voice/         # TTS + STT 語音模組
-│       ├── vision/        # MediaPipe 手勢追蹤
-│       ├── animation/     # 待機動畫 + 唇形同步
-│       └── ui/            # 對話氣泡、輸入框、音樂播放器
+d:\ai\
+├── main.js              # Electron 主程序
+├── preload.js           # 安全橋接層
+├── src/renderer/
+│   ├── index.html       # 主畫面
+│   ├── app.js           # 主程式
+│   ├── core/            # PixiJS 渲染
+│   ├── ai/              # Claude AI + 五月人設
+│   ├── voice/           # TTS + STT
+│   ├── vision/          # 手勢追蹤
+│   ├── animation/       # 待機動畫 + 嘴形同步
+│   └── ui/              # 對話氣泡 + 輸入框
 ├── assets/
-│   ├── lib/               # 第三方 JS 庫
-│   └── models/            # Live2D 模型（自行放入）
-├── config.example.json    # API Key 設定範本
-└── start.bat              # Windows 一鍵啟動
+│   ├── lib/             # PixiJS, MediaPipe
+│   └── models/          # Live2D 模型（後續）
+└── package.json
 ```
 
-## ⚠️ 注意事項
+## 技術棧
 
-- `config.json` 已加入 `.gitignore`，**請勿將 API Key 上傳至公開倉庫**
-- Live2D 模型檔案有版權，本倉庫不包含任何模型
-- 手勢追蹤需另外下載 [MediaPipe Hand Landmarker 模型](https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/latest/hand_landmarker.task) 放入 `assets/lib/mediapipe/`
+- **桌面框架**: Electron 33
+- **渲染引擎**: PixiJS 7 (WebGL)
+- **AI**: Claude API (Anthropic SDK)
+- **語音合成**: Web Speech API (Chromium 內建)
+- **語音辨識**: Web Speech API SpeechRecognition
+- **手勢追蹤**: MediaPipe Hands (可選)
+- **角色模型**: 佔位 PixiJS Graphics → 後續換 Live2D
 
-## 📝 License
+## 未來計劃
 
-MIT
+- [ ] Live2D 五月模型替換
+- [ ] Porcupine 喚醒詞（「嘿五月」）
+- [ ] 更精細的肢體追蹤（身體同步）
+- [ ] 多姊妹模式（一花、二乃、三玖、四葉）
+- [ ] 桌面小工具（時鐘、提醒、天氣）
